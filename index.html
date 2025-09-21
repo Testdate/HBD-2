@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Happy Birthday 🎂</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --black: #0b0b0b;
+      --white: #ffffff;
+      --blue: #00aaff;
+      --blue-2: #0ea5e9;
+      --glass: rgba(255,255,255,0.06);
+      --radius: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,var(--black) 0%, #071018 100%);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card{
+      width:100%;
+      max-width:900px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius: var(--radius);
+      padding:28px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.04);
+      position:relative;
+      z-index:2;
+      backdrop-filter: blur(6px);
+    }
+
+    .left{
+      padding:18px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .title{
+      font-size: clamp(24px, 4vw, 40px);
+      font-weight:700;
+      letter-spacing: -0.02em;
+      color:var(--white);
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .desc{
+      color:rgba(255,255,255,0.75);
+      line-height:1.5;
+      font-size:15px;
+    }
+
+    .cta-row{
+      margin-top:10px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0;
+      padding:12px 18px;
+      font-weight:600;
+      border-radius:12px;
+      cursor:pointer;
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+
+    .btn-primary{
+      background: linear-gradient(90deg,var(--blue) 0%, var(--blue-2) 100%);
+      color:var(--black);
+      box-shadow: 0 6px 20px rgba(14,165,233,0.18);
+    }
+
+    .btn:active{ transform: translateY(2px) }
+
+    .right{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      position:relative;
+    }
+
+    .cake-wrap{
+      width:100%;
+      max-width:380px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
+      border: 1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .greeting{
+      font-weight:700;
+      font-size:20px;
+      color:var(--blue-2);
+    }
+
+    .cake-svg{
+      width:220px;
+      height:auto;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+    }
+
+    /* ปรับบล็อกคำถามให้เด่นและไม่จาง */
+    .question-container {
+      display: none; /* ซ่อนบล็อกคำถามเริ่มต้น */
+      position: fixed; /* ใช้ fixed เพื่อให้อยู่กลางหน้าจอเสมอ */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.85);  /* ปรับความทึบของพื้นหลัง */
+      padding: 20px;
+      border-radius: 15px;
+      color: var(--white);
+      text-align: center;
+      width: 80%;
+      max-width: 350px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6); /* เพิ่มเงาให้เด่นขึ้น */
+      z-index: 10; /* ทำให้บล็อกนี้อยู่เหนือเนื้อหาอื่นๆ */
+    }
+
+    .question {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--blue-2);
+      margin-bottom: 20px;
+    }
+
+    .answer-btn {
+      padding: 12px 18px;
+      font-size: 18px;
+      background-color: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .answer-btn:active {
+      transform: scale(0.98);
+    }
+
+    .expanded {
+      width: 200px; /* ขยายปุ่ม */
+      font-size: 22px;
+    }
+
+    .hidden {
+      display: none; /* ซ่อนปุ่ม "ไม่พร้อม" */
+    }
+
+    canvas.confetti-canvas{
+      position: absolute;
+      inset: 0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:1;
+    }
+
+    @media (max-width:900px){
+      .card{ grid-template-columns: 1fr; padding:18px; }
+      .right{ order:-1; margin-bottom:6px; }
+      .cake-svg{ width:200px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- เพิ่มเสียงพื้นหลัง -->
+  <video id="background-video" autoplay loop muted style="display:none;">
+  <source src="HBD.MP4" type="video/mp4">
+  Your browser does not support the video tag.
+  </video>
+
+  <div class="wrap">
+    <canvas class="confetti-canvas" id="confetti"></canvas>
+
+    <div class="card" role="main" aria-labelledby="mainTitle">
+      <div class="left">
+        <div class="top">
+          <div class="title" id="mainTitle">
+            <span>🎉 Happy Birthday!</span>
+            <div style="background:linear-gradient(90deg,var(--blue),var(--blue-2));height:10px;width:10px;border-radius:50%;box-shadow:0 6px 16px rgba(14,165,233,0.16)"></div>
+          </div>
+        </div>
+
+        <p class="desc">
+          สุขสันต์วันเกิดนะคั้บไอ้เด็กดื้อ สุขภาพแข็งแรง ดูแลตัวเองดีๆนะ กินข้าวให้ครบด้วยนะคั้บ เลิกขี้แงได้แล้วนะเด็กน้อย🎈
+        </p>
+
+        <div class="cta-row">
+          <button class="btn btn-primary" id="blowBtn">จุดเทียน</button>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="cake-wrap" id="cakeCard" role="img" aria-label="Birthday cake">
+          <div class="greeting">ขอให้มีความสุขมากๆนะ 🎂</div>
+
+          <!-- เค้กที่ปรับแล้ว -->
+          <svg class="cake-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="icing" x1="0" x2="1">
+                <stop offset="0" stop-color="#00aaff"/>
+                <stop offset="1" stop-color="#0ea5e9"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="200" cy="350" rx="140" ry="18" fill="rgba(255,255,255,0.05)"/>
+            <rect x="80" y="180" width="240" height="120" rx="20" ry="20" fill="#111" stroke="rgba(255,255,255,0.03)" />
+            <path d="M80 200 Q120 160 200 180 Q280 200 320 190 Q280 170 120 160 Q80 200 Z" fill="url(#icing)" />
+            <circle cx="190" cy="140" r="14" fill="rgba(255,255,255,0.06)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ส่วนของการตั้งคำถาม -->
+  <div class="question-container" id="questionContainer">
+    <div class="question">เป็นแฟนกันมั้ยคะเด็กดื้อ</div>
+    <button class="answer-btn" id="answerBtnYes">ตกลง</button>
+    <button class="answer-btn" id="answerBtnNo">ไม่พร้อม</button>
+  </div>
+
+  <script>
+    const blowBtn = document.getElementById("blowBtn");
+    const questionContainer = document.getElementById("questionContainer");
+    const answerBtnYes = document.getElementById("answerBtnYes");
+    const answerBtnNo = document.getElementById("answerBtnNo");
+
+    blowBtn.addEventListener("click", () => {
+      questionContainer.style.display = "block"; // แสดงคำถาม
+    });
+
+    answerBtnYes.addEventListener("click", () => {
+      alert("รักเด็กดื้อนะคะ😘");
+      questionContainer.style.display = "none"; // ซ่อนคำถามหลังจากตอบ
+    });
+
+    // เมื่อคลิกปุ่ม "ไม่พร้อม" จะขยายปุ่ม "ตกลง" และทำให้ "ไม่พร้อม" หายไป
+    answerBtnNo.addEventListener("click", () => {
+      answerBtnYes.classList.add("expanded"); // ขยายปุ่มตกลง
+      answerBtnNo.classList.add("hidden"); // ซ่อนปุ่ม "ไม่พร้อม"
+    });
+  </script>
+</body>
+</html>
